@@ -162,9 +162,12 @@ if __name__ == '__main__':
         wordlist = dataset["wordlist"]
 
         print(wordlist[50])
-        print()
-
-
+        print("_________________")
+        for i in range(0, X[500].size):
+          if X[500][i] == 1:
+            print(wordlist[i])
+        print("_________________")
+        print(groupnames[y[500]])
 
     elif question == '2.3':
         dataset = load_dataset("newsgroups.pkl")
