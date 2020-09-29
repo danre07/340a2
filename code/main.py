@@ -204,7 +204,16 @@ if __name__ == '__main__':
         Xtest = dataset['Xtest']
         ytest = dataset['ytest']
 
+        k = 1
+        model = KNN(k)
+        model.fit(X, y)
+        y_pred = model.predict(Xtest)
+        err_tr = np.mean(y_pred != y)
+        err_te = np.mean(y_pred != ytest)
 
+        print("KNN k = %.3f" % k)
+        print("KNN training error: %.3f" % err_tr)
+        print("KNN testing error: %.3f" % err_te)
 
     elif question == '4':
         dataset = load_dataset('vowel.pkl')
