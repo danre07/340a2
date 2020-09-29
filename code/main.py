@@ -188,6 +188,11 @@ if __name__ == '__main__':
         v_error = np.mean(y_pred != y_valid)
         print("Naive Bayes (ours) validation error: %.3f" % v_error)
 
+        bmodel = BernoulliNB()
+        bmodel.fit(X, y)
+        b_y_pred = bmodel.predict(X_valid)
+        b_v_error = np.mean(b_y_pred != y_valid)
+        print("BernoulliNB validation error: %.3f" % v_error)
     
 
     elif question == '3':
