@@ -10,6 +10,7 @@ class Kmeans:
         N, D = X.shape
         y = np.ones(N)
 
+        # means associated with each cluster 
         means = np.zeros((self.k, D))
         for kk in range(self.k):
             i = np.random.randint(N)
@@ -31,6 +32,9 @@ class Kmeans:
             changes = np.sum(y != y_old)
             # print('Running K-means, changes in cluster assignment = {}'.format(changes))
 
+            # self.means = means
+            # print("K-means error during fitting:", self.error(X))
+
             # Stop if no point changed cluster
             if changes == 0:
                 break
@@ -42,3 +46,21 @@ class Kmeans:
         dist2 = euclidean_dist_squared(X, means)
         dist2[np.isnan(dist2)] = np.inf
         return np.argmin(dist2, axis=1)
+
+    def error(self, X):
+        N, D = X.shape
+        # get the cluster associated with each entry
+        y = self.predict(X)
+        means = self.means
+        err = 0
+        # iterate through each entry
+        for i in range(N):
+           # predicted label/cluster for this entry
+          cluster = y[i]
+          # get differencce between mean features and entry features
+          diff = X[i] - means[cluster]
+
+          # get square and add to sum
+          diff_sq = np.linalg.norm(diff)**2
+          err += diff_sq
+        return err;

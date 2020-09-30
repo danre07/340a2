@@ -20,15 +20,15 @@ class KNN:
         # return N by T array with pairwise squared Euclidean distances
         dist_squared = utils.euclidean_dist_squared(self.X, Xtest)
         # sort dist_squared by squared distance
-        idx = np.argsort(dist_squared, axis=0)
+        idx = np.argsort(dist_squared, axis=1)
         # restrict to k nearest in X
-        idx_k = idx[:self.k]
+        idx_k = idx[:,:self.k]
 
         # print(idx_k)
         y_pred = []
         
         # iterate through X rows data
-        for i in range(0,self.X.size):
+        for i in range(0,Xtest.size):
           # y values of neighbors
           y_neighbors = []
           # iterate through the neighbor

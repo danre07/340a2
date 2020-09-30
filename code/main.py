@@ -211,6 +211,8 @@ if __name__ == '__main__':
         err_tr = np.mean(y_pred != y)
         err_te = np.mean(y_pred != ytest)
 
+        # utils.plotClassifier(model, Xtest, ytest)
+
         print("KNN k = %.3f" % k)
         print("KNN training error: %.3f" % err_tr)
         print("KNN testing error: %.3f" % err_te)
@@ -254,12 +256,51 @@ if __name__ == '__main__':
     elif question == '5.1':
         X = load_dataset('clusterData.pkl')['X']
 
+        min_err = np.inf;
+        for i in range(50):
+          model = Kmeans(k=4)
+          model.fit(X)
+          y = model.predict(X)
+          err = model.error(X)  
+          if (err < min_err):
+            min_err = err
+            plt.scatter(X[:,0], X[:,1], c=y, cmap="jet")
+            fname = os.path.join("..", "figs", "kmeans_basic.png")
+            plt.savefig(fname)
+
+        print("K-means minimum error: %.3f" % min_err)
 
 
+        # used to output error during fitting
+        # model = Kmeans(k=4)
+        # model.fit(X)
+        # y = model.predict(X)
+        # err = model.error(X)  
+        # print("K-means error: %.3f" % err)
+          
+           
     elif question == '5.2':
         X = load_dataset('clusterData.pkl')['X']
 
+        k_vals = []
+        errors = []
+        for k in range(1,11):
+          k_vals = np.append(k_vals, k)
+          min_err = np.inf;
+          for i in range(50):
+            model = Kmeans(k)
+            model.fit(X)
+            y = model.predict(X)
+            err = model.error(X)  
+            if (err < min_err):
+              min_err = err
+          errors = np.append(errors,min_err)
 
+        plt.plot(k_vals, errors)
+        plt.title("Error vs k comparison at 50 randomizations")
+        plt.xlabel("k")
+        plt.ylabel("min error")
+        plt.show()
 
     elif question == '5.3':
         X = load_dataset('clusterData2.pkl')['X']
