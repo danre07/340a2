@@ -207,9 +207,10 @@ if __name__ == '__main__':
         k = 1
         model = KNN(k)
         model.fit(X, y)
-        y_pred = model.predict(Xtest)
+        y_pred = model.predict(X)
         err_tr = np.mean(y_pred != y)
         err_te = np.mean(y_pred != ytest)
+
 
         # utils.plotClassifier(model, Xtest, ytest)
 
@@ -305,7 +306,7 @@ if __name__ == '__main__':
     elif question == '5.3':
         X = load_dataset('clusterData2.pkl')['X']
 
-        model = DBSCAN(eps=1, min_samples=3)
+        model = DBSCAN(eps=1000, min_samples=10)
         y = model.fit_predict(X)
 
         print("Labels (-1 is unassigned):", np.unique(model.labels_))

@@ -20,25 +20,27 @@ class KNN:
         # return N by T array with pairwise squared Euclidean distances
         dist_squared = utils.euclidean_dist_squared(self.X, Xtest)
         # sort dist_squared by squared distance
-        idx = np.argsort(dist_squared, axis=1)
+        idx = np.argsort(dist_squared, axis=0)
         # restrict to k nearest in X
-        idx_k = idx[:,:self.k]
+        # idx_k = idx[:,:self.k]
 
-        # print(idx_k)
         y_pred = []
-        
-        # iterate through X rows data
-        for i in range(0,Xtest.size):
+      
+        n, d = Xtest.shape
+
+        # iterate through each test entry
+        for i in range(0, n):
           # y values of neighbors
           y_neighbors = []
           # iterate through the neighbor
           for j in range(0,self.k):
             # add y associated with k-th neighbor
-            y_neighbors.append(self.y[idx_k[j][i]])
+            idx_neighbor = idx[j][i]
+            y_neighbors = np.append(y_neighbors, self.y[idx_neighbor])
           # get most common y
           y_mode = stats.mode(y_neighbors)
           # add most common label to predicted values
-          y_pred.append(y_mode)
+          y_pred = np.append(y_pred, y_mode)
 
         # print(y_pred)
         return np.array(y_pred)
